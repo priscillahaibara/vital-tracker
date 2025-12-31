@@ -1,19 +1,31 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useLoginMutation } from "@/hooks/useLoginMutation";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Page() {
+  const router = useRouter();
   const loginMutation = useLoginMutation();
+  const { isAuthenticated, loading } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    if (isAuthenticated && !loading) {
+      router.replace("/dashboard");
+    }
+  }, [isAuthenticated, loading, router]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     loginMutation.mutate({ email, password });
   };
+
+  if (loading) return <p>Loading...</p>;
 
   return (
     <main className="flex h-screen flex-col items-center justify-center">
