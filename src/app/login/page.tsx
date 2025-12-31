@@ -1,13 +1,18 @@
 "use client";
 
 import { useState } from "react";
+import { useLoginMutation } from "@/hooks/useLoginMutation";
 
 export default function Page() {
+  const loginMutation = useLoginMutation();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    loginMutation.mutate({ email, password });
   };
 
   return (
@@ -40,10 +45,14 @@ export default function Page() {
 
         <button
           type="submit"
+          disabled={loginMutation.isPending}
           className="rounded-md border bg-neutral-800 px-3 py-1.5 font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50"
         >
-          Login
+          {loginMutation.isPending ? "Logging in..." : "Login"}
         </button>
+        {loginMutation.isError && (
+          <p className="text-sm text-red-500">{loginMutation.error.message}</p>
+        )}
       </form>
     </main>
   );
