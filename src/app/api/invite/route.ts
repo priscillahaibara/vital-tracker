@@ -24,6 +24,10 @@ export async function POST(req: Request) {
       );
     }
 
+    if (user.app_metadata?.role !== "admin") {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
     const { email } = await req.json();
 
     if (!email) {
