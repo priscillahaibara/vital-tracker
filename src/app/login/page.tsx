@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useLoginMutation } from "@/hooks/useLoginMutation";
 import { useAuth } from "@/hooks/useAuth";
+import { Input } from "@/components/ui/Input";
+import { Button } from "@/components/ui/Button";
 
 export default function Page() {
   const router = useRouter();
@@ -37,31 +39,31 @@ export default function Page() {
           Welcome to Vital Tracker
         </h1>
 
-        <input
+        <Input
           type="email"
           required
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="rounded-md border border-neutral-400 px-3 py-1.5"
         />
 
-        <input
+        <Input
           type="password"
           required
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="rounded-md border border-neutral-400 px-3 py-1.5"
         />
 
-        <button
+        <Button
           type="submit"
+          loadingLabel="Logging in..."
+          loading={loginMutation.isPending}
           disabled={loginMutation.isPending}
-          className="rounded-md border bg-neutral-800 px-3 py-1.5 font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50"
         >
-          {loginMutation.isPending ? "Logging in..." : "Login"}
-        </button>
+          Login
+        </Button>
+
         {loginMutation.isError && (
           <p className="text-sm text-red-500">{loginMutation.error.message}</p>
         )}
