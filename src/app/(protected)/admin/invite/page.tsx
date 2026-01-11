@@ -15,9 +15,16 @@ export default function Page() {
   const { session } = useAuth();
 
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<null | string>(null);
+  const [success, setSuccess] = useState<null | string>(null);
 
   async function handleInvite(e: React.FormEvent) {
     e.preventDefault();
+
+    setLoading(true);
+    setError(null);
+    setSuccess(null);
 
     try {
       const res = await fetch("/api/invite", {
@@ -29,14 +36,18 @@ export default function Page() {
         body: JSON.stringify({ email }),
       });
 
+      const data = await res.json();
+
       if (!res.ok) {
-        alert("Failed to send invite");
-        return;
+        throw new Error(data.error ?? "Failed to send invite");
       }
 
-      alert("Invite sent");
-    } catch {
-      alert("Network error");
+      setSuccess(`Invite sent to ${email}`);
+      setEmail("");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "UnexpectedError");
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -49,7 +60,7 @@ export default function Page() {
         <p className="mb-2">
           Admin-only page. Enter an email address to send an invitation:
         </p>
-        <div className="flex gap-2">
+        <div className="mb-2 flex gap-2">
           <Input
             type="email"
             placeholder="user@example.com"
@@ -57,8 +68,13 @@ export default function Page() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <Button type="submit">Send Invite</Button>
+          <Button type="submit" loading={loading}>
+            Send Invite
+          </Button>
         </div>
+
+        {error && <p className="text-sm text-red-500">{error}</p>}
+        {success && <p className="text-sm text-green-500">{success}</p>}
       </form>
     </div>
   );
