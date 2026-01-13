@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useLoginMutation } from "@/hooks/useLoginMutation";
 import { useAuth } from "@/hooks/useAuth";
+import { AuthForm } from "@/components/common/AuthForm";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 
@@ -30,44 +31,35 @@ export default function Page() {
   if (loading) return <p>Loading...</p>;
 
   return (
-    <main className="flex h-screen flex-col items-center justify-center">
-      <form
-        onSubmit={handleSubmit}
-        className="flex w-full max-w-sm flex-col gap-3 px-8 py-4"
+    <AuthForm title="Welcome to Vital Tracker" onSubmit={handleSubmit}>
+      <Input
+        type="email"
+        required
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+
+      <Input
+        type="password"
+        required
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+
+      <Button
+        type="submit"
+        loadingLabel="Logging in..."
+        loading={loginMutation.isPending}
+        disabled={loginMutation.isPending}
       >
-        <h1 className="mb-2 text-center text-2xl font-bold">
-          Welcome to Vital Tracker
-        </h1>
+        Login
+      </Button>
 
-        <Input
-          type="email"
-          required
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-
-        <Input
-          type="password"
-          required
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-
-        <Button
-          type="submit"
-          loadingLabel="Logging in..."
-          loading={loginMutation.isPending}
-          disabled={loginMutation.isPending}
-        >
-          Login
-        </Button>
-
-        {loginMutation.isError && (
-          <p className="text-sm text-red-500">{loginMutation.error.message}</p>
-        )}
-      </form>
-    </main>
+      {loginMutation.isError && (
+        <p className="text-sm text-red-500">{loginMutation.error.message}</p>
+      )}
+    </AuthForm>
   );
 }
