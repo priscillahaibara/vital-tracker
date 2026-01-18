@@ -22,3 +22,14 @@ export async function signOut() {
 
   if (error) throw error;
 }
+
+export async function completeInviteSignUp(password: string): Promise<User> {
+  const { data, error } = await supabase.auth.updateUser({
+    password,
+  });
+
+  if (error) throw error;
+  if (!data.user) throw new Error("User not returned by Supabase.");
+
+  return data.user;
+}

@@ -34,8 +34,12 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Email is required" }, { status: 400 });
     }
 
-    const { data, error } =
-      await supabaseAdmin.auth.admin.inviteUserByEmail(email);
+    const { data, error } = await supabaseAdmin.auth.admin.inviteUserByEmail(
+      email,
+      {
+        redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/register`,
+      },
+    );
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 400 });
