@@ -1,14 +1,24 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import { AuthForm } from "@/components/common/AuthForm";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
+import { useCompleteSignupMutation } from "@/hooks/useCompleteSignupMutation";
 
 export default function Page() {
+  const completeSignupMutation = useCompleteSignupMutation();
+  const router = useRouter();
+
   const [isLoadingInvite, setIsLoadingInvite] = useState(true);
   const [inviteError, setInviteError] = useState<null | string>(null);
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [formError, setFormError] = useState<null | string>(null);
+
+  const isInviteValid = !inviteError && !isLoadingInvite;
 
   useEffect(() => {
     const validateInvite = async () => {
@@ -41,6 +51,20 @@ export default function Page() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (password !== confirmPassword) {
+      setFormError("Passwords do not match.");
+      return;
+    }
+
+    completeSignupMutation.mutate(password, {
+      onSuccess: () => {
+        router.replace("/dashboard");
+      },
+      onError: (error) => {
+        setFormError(error.message);
+      },
+    });
   };
 
   return (
@@ -54,17 +78,30 @@ export default function Page() {
         placeholder="Set password"
         minLength={6}
         required
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
       />
       <Input
         type="password"
         placeholder="Confirm password"
         minLength={6}
         required
+        value={confirmPassword}
+        onChange={(e) => setConfirmPassword(e.target.value)}
       />
-      <Button type="submit">Create Account</Button>
+      <Button
+        type="submit"
+        disabled={
+          isLoadingInvite || !isInviteValid || completeSignupMutation.isPending
+        }
+        loading={completeSignupMutation.isPending}
+      >
+        Complete Signup
+      </Button>
 
       {isLoadingInvite && <p className="text-sm">Validating invitation...</p>}
       {inviteError && <p className="text-sm text-red-500">{inviteError}</p>}
+      {formError && <p className="text-sm text-red-500">{formError}</p>}
     </AuthForm>
   );
 }
