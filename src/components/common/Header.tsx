@@ -16,6 +16,10 @@ export default function Header() {
     <header className="flex w-full justify-between px-6 py-4">
       <Link href="/dashboard">Vital Tracker</Link>
 
+      <nav>
+        <Link href="/patients/list">Patients</Link>
+      </nav>
+
       <div className="flex gap-4">
         {name && <p>{name}</p>}
         <button
