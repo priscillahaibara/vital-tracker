@@ -13,6 +13,7 @@ type AuthContextType = {
   role: Role | null;
   isAdmin: boolean;
   isDoctor: boolean;
+  name: string | null;
 };
 
 export const AuthContext = createContext<AuthContextType | undefined>(
@@ -25,6 +26,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   const role = user?.app_metadata?.role as Role | null;
+
+  const name = (user?.user_metadata?.name as string) ?? null;
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -56,6 +59,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         role,
         isAdmin: role === "admin",
         isDoctor: role === "doctor",
+        name,
       }}
     >
       {children}
