@@ -1,17 +1,28 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/hooks/useAuth";
 import { useUpdateProfileMutation } from "@/hooks/useUpdateProfileMutation";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 
 export default function Page() {
+  const { user, loading } = useAuth();
   const updateProfileMutation = useUpdateProfileMutation();
   const router = useRouter();
 
   const [name, setName] = useState("");
   const [error, setError] = useState<null | string>(null);
+
+  useEffect(() => {
+    if (loading) return;
+    const profileName = user?.user_metadata?.name;
+
+    if (profileName) {
+      router.replace("/dashboard");
+    }
+  }, [user, loading, router]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
