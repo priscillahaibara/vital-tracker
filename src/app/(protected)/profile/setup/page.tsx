@@ -1,12 +1,16 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useUpdateProfileMutation } from "@/hooks/useUpdateProfileMutation";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 
 export default function Page() {
+  const updateProfileMutation = useUpdateProfileMutation();
+  const router = useRouter();
+
   const [name, setName] = useState("");
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<null | string>(null);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
@@ -17,14 +21,16 @@ export default function Page() {
       return;
     }
 
-    setLoading(true);
     setError(null);
 
-    //simulate async work
-    setTimeout(() => {
-      console.log("Submitting name");
-      setLoading(false);
-    }, 500);
+    updateProfileMutation.mutate(name, {
+      onSuccess: () => {
+        router.replace("/dashboard");
+      },
+      onError: (error) => {
+        setError(error.message);
+      },
+    });
   };
 
   return (
@@ -42,12 +48,15 @@ export default function Page() {
             placeholder="Full name"
             className="flex-1"
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => {
+              setName(e.target.value);
+              if (error) setError(null);
+            }}
           />
           <Button
             type="submit"
-            disabled={loading}
-            loading={loading}
+            disabled={updateProfileMutation.isPending}
+            loading={updateProfileMutation.isPending}
             loadingLabel="Submitting..."
           >
             Submit
