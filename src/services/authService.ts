@@ -33,3 +33,12 @@ export async function completeInviteSignUp(password: string): Promise<User> {
 
   return data.user;
 }
+
+export async function updateProfileName(name: string): Promise<User> {
+  const { data, error } = await supabase.auth.updateUser({data: { name }});
+
+  if (error) throw error;
+  if (!data.user) throw new Error('User not returned by Supabase.')
+
+  return data.user;
+}
