@@ -1,7 +1,7 @@
 "use client";
 
-import { useAuth } from "@/hooks/useAuth";
-import { useLogoutMutation } from "@/hooks/useLogoutMutation";
+import { useAuth } from "@/hooks/auth/useAuth";
+import { useLogoutMutation } from "@/hooks/auth/mutations/useLogoutMutation";
 import Link from "next/link";
 
 export default function Header() {

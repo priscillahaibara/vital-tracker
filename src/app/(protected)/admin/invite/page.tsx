@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { useAuth } from "@/hooks/useAuth";
-import { useRequireAuth } from "@/hooks/useRequireAuth";
+import { useAuth } from "@/hooks/auth/useAuth";
+import { useRequireAuth } from "@/hooks/auth/useRequireAuth";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 

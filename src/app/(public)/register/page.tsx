@@ -6,7 +6,7 @@ import { supabase } from "@/lib/supabase/client";
 import { AuthForm } from "@/components/common/AuthForm";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
-import { useCompleteSignupMutation } from "@/hooks/useCompleteSignupMutation";
+import { useCompleteSignupMutation } from "@/hooks/auth/mutations/useCompleteSignupMutation";
 
 export default function Page() {
   const completeSignupMutation = useCompleteSignupMutation();

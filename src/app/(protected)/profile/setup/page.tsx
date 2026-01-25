@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/hooks/useAuth";
-import { useUpdateProfileMutation } from "@/hooks/useUpdateProfileMutation";
+import { useAuth } from "@/hooks/auth/useAuth";
+import { useUpdateProfileMutation } from "@/hooks/auth/mutations/useUpdateProfileMutation";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 
