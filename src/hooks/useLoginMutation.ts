@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation } from "@tanstack/react-query";
-import { signIn } from "@/services/authService";
+import { signIn } from "@/services/auth/authService";
 import type { User } from "@supabase/supabase-js";
 import type { LoginCredentials } from "@/types/auth";
 
