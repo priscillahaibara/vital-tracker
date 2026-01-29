@@ -6,8 +6,27 @@ import RiskBadge from "@/components/ui/RiskBadge";
 export default function PatientsListPage() {
   const { data, isLoading, isError } = usePatientsQuery();
 
-  if (isLoading) return <p>Loading patients...</p>;
-  if (isError) return <p>Failed to load patients.</p>;
+  if (isLoading) {
+    return (
+      <div>
+        <h2 className="mb-3 text-2xl font-bold">Patients List</h2>
+        <div className="animate-pulse space-y-2">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <div key={i} className="h-10 w-full rounded bg-gray-200"></div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div>
+        <h2 className="mb-3 text-2xl font-bold">Patients List</h2>
+        <p>Failed to load patients.</p>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -28,7 +47,9 @@ export default function PatientsListPage() {
               <td className="p-2">{patient.name}</td>
               <td className="p-2">{patient.age}</td>
               <td className="p-2">{patient.condition ?? "-"}</td>
-              <td className="p-2"><RiskBadge level={patient.risk_level}/></td>
+              <td className="p-2">
+                <RiskBadge level={patient.risk_level} />
+              </td>
             </tr>
           ))}
         </tbody>
