@@ -1,6 +1,7 @@
 "use client";
 
 import { usePatientsQuery } from "@/hooks/queries/patients/usePatientsQuery";
+import RiskBadge from "@/components/ui/RiskBadge";
 
 export default function PatientsListPage() {
   const { data, isLoading, isError } = usePatientsQuery();
@@ -27,7 +28,7 @@ export default function PatientsListPage() {
               <td className="p-2">{patient.name}</td>
               <td className="p-2">{patient.age}</td>
               <td className="p-2">{patient.condition ?? "-"}</td>
-              <td className="p-2">{patient.risk_level ?? "-"}</td>
+              <td className="p-2"><RiskBadge level={patient.risk_level}/></td>
             </tr>
           ))}
         </tbody>
