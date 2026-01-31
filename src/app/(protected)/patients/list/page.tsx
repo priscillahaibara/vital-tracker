@@ -2,6 +2,7 @@
 
 import { usePatientsQuery } from "@/hooks/queries/patients/usePatientsQuery";
 import RiskBadge from "@/components/ui/RiskBadge";
+import PageTitle from "@/components/ui/PageTitle";
 
 export default function PatientsListPage() {
   const { data, isLoading, isError } = usePatientsQuery();
@@ -9,7 +10,7 @@ export default function PatientsListPage() {
   if (isLoading) {
     return (
       <div>
-        <h2 className="mb-3 text-2xl font-bold">Patients List</h2>
+        <PageTitle>Patients List</PageTitle>
         <div className="animate-pulse space-y-2">
           {Array.from({ length: 5 }).map((_, i) => (
             <div key={i} className="h-10 w-full rounded bg-gray-200"></div>
@@ -22,7 +23,7 @@ export default function PatientsListPage() {
   if (isError) {
     return (
       <div>
-        <h2 className="mb-3 text-2xl font-bold">Patients List</h2>
+        <PageTitle>Patients List</PageTitle>
         <p>Failed to load patients.</p>
       </div>
     );
@@ -31,7 +32,7 @@ export default function PatientsListPage() {
   if (data && data.length === 0) {
     return (
       <div>
-        <h2 className="mb-3 text-2xl font-bold">Patients List</h2>
+        <PageTitle>Patients List</PageTitle>
         <p>No patients registered yet.</p>
       </div>
     );
@@ -39,7 +40,7 @@ export default function PatientsListPage() {
 
   return (
     <div>
-      <h2 className="mb-3 text-2xl font-bold">Patients List</h2>
+      <PageTitle>Patients List</PageTitle>
 
       <table className="w-full border">
         <thead>
