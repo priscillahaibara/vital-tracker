@@ -30,6 +30,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-  ],
+, "src/hooks/queries/patients/usePatients", "src/hooks/queries/patients/usePatients"  ],
   "exclude": ["node_modules"]
 }
