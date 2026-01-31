@@ -28,6 +28,15 @@ export default function PatientsListPage() {
     );
   }
 
+  if (data && data.length === 0) {
+    return (
+      <div>
+        <h2 className="mb-3 text-2xl font-bold">Patients List</h2>
+        <p>No patients registered yet.</p>
+      </div>
+    );
+  }
+
   return (
     <div>
       <h2 className="mb-3 text-2xl font-bold">Patients List</h2>
