@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/auth/useAuth";
 import { useUpdateProfileMutation } from "@/hooks/auth/mutations/useUpdateProfileMutation";
+import PageTitle from "@/components/ui/PageTitle";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 
@@ -46,7 +47,7 @@ export default function Page() {
 
   return (
     <div className="max-w-md">
-      <h1 className="mb-3 text-2xl font-bold">Complete Profile</h1>
+      <PageTitle>Complete Profile</PageTitle>
       <p className="mb-2">
         Before accessing the dashboard, please complete your profile
         information.

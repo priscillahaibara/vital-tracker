@@ -2,14 +2,26 @@
 
 import { usePatientsQuery } from "@/hooks/queries/patients/usePatientsQuery";
 import RiskBadge from "@/components/ui/RiskBadge";
+import PageTitle from "@/components/ui/PageTitle";
+import { Input } from "@/components/ui/Input";
+import { Search } from "lucide-react";
+import { useState } from "react";
 
-export default function PatientsListPage() {
+export default function Page() {
   const { data, isLoading, isError } = usePatientsQuery();
+
+  const [search, setSearch] = useState("");
+
+  const normalizedSearch = search.trim().toLowerCase();
+
+  const filteredPatients = data?.filter((patient) =>
+    patient.name.toLowerCase().includes(normalizedSearch),
+  );
 
   if (isLoading) {
     return (
       <div>
-        <h2 className="mb-3 text-2xl font-bold">Patients List</h2>
+        <PageTitle>Patients List</PageTitle>
         <div className="animate-pulse space-y-2">
           {Array.from({ length: 5 }).map((_, i) => (
             <div key={i} className="h-10 w-full rounded bg-gray-200"></div>
@@ -22,7 +34,7 @@ export default function PatientsListPage() {
   if (isError) {
     return (
       <div>
-        <h2 className="mb-3 text-2xl font-bold">Patients List</h2>
+        <PageTitle>Patients List</PageTitle>
         <p>Failed to load patients.</p>
       </div>
     );
@@ -31,7 +43,7 @@ export default function PatientsListPage() {
   if (data && data.length === 0) {
     return (
       <div>
-        <h2 className="mb-3 text-2xl font-bold">Patients List</h2>
+        <PageTitle>Patients List</PageTitle>
         <p>No patients registered yet.</p>
       </div>
     );
@@ -39,7 +51,18 @@ export default function PatientsListPage() {
 
   return (
     <div>
-      <h2 className="mb-3 text-2xl font-bold">Patients List</h2>
+      <PageTitle>Patients List</PageTitle>
+
+      <div className="mb-6 flex">
+        <Input
+          type="text"
+          placeholder="Search patient by name..."
+          icon={<Search size={18} />}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="flex-1"
+        />
+      </div>
 
       <table className="w-full border">
         <thead>
@@ -51,16 +74,24 @@ export default function PatientsListPage() {
           </tr>
         </thead>
         <tbody>
-          {data?.map((patient) => (
-            <tr key={patient.id} className="border-b text-center">
-              <td className="p-2">{patient.name}</td>
-              <td className="p-2">{patient.age}</td>
-              <td className="p-2">{patient.condition ?? "-"}</td>
-              <td className="p-2">
-                <RiskBadge level={patient.risk_level} />
+          {filteredPatients && filteredPatients.length > 0 ? (
+            filteredPatients?.map((patient) => (
+              <tr key={patient.id} className="border-b text-center">
+                <td className="p-2">{patient.name}</td>
+                <td className="p-2">{patient.age}</td>
+                <td className="p-2">{patient.condition ?? "-"}</td>
+                <td className="p-2">
+                  <RiskBadge level={patient.risk_level} />
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan={4} className="p-3">
+                No patients match your search.
               </td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
     </div>
