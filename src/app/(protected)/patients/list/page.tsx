@@ -3,9 +3,14 @@
 import { usePatientsQuery } from "@/hooks/queries/patients/usePatientsQuery";
 import RiskBadge from "@/components/ui/RiskBadge";
 import PageTitle from "@/components/ui/PageTitle";
+import { Input } from "@/components/ui/Input";
+import { Search } from "lucide-react";
+import { useState } from "react";
 
 export default function PatientsListPage() {
   const { data, isLoading, isError } = usePatientsQuery();
+
+  const [search, setSearch] = useState("");
 
   if (isLoading) {
     return (
@@ -41,6 +46,17 @@ export default function PatientsListPage() {
   return (
     <div>
       <PageTitle>Patients List</PageTitle>
+
+      <div className="mb-6 flex">
+        <Input
+          type="text"
+          placeholder="Search patient by name..."
+          icon={<Search size={18} />}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="flex-1"
+        />
+      </div>
 
       <table className="w-full border">
         <thead>
