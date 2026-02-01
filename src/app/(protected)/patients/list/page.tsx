@@ -74,16 +74,24 @@ export default function Page() {
           </tr>
         </thead>
         <tbody>
-          {filteredPatients?.map((patient) => (
-            <tr key={patient.id} className="border-b text-center">
-              <td className="p-2">{patient.name}</td>
-              <td className="p-2">{patient.age}</td>
-              <td className="p-2">{patient.condition ?? "-"}</td>
-              <td className="p-2">
-                <RiskBadge level={patient.risk_level} />
+          {filteredPatients && filteredPatients.length > 0 ? (
+            filteredPatients?.map((patient) => (
+              <tr key={patient.id} className="border-b text-center">
+                <td className="p-2">{patient.name}</td>
+                <td className="p-2">{patient.age}</td>
+                <td className="p-2">{patient.condition ?? "-"}</td>
+                <td className="p-2">
+                  <RiskBadge level={patient.risk_level} />
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan={4} className="p-3">
+                No patients match your search.
               </td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
     </div>
