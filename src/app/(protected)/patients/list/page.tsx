@@ -7,10 +7,16 @@ import { Input } from "@/components/ui/Input";
 import { Search } from "lucide-react";
 import { useState } from "react";
 
-export default function PatientsListPage() {
+export default function Page() {
   const { data, isLoading, isError } = usePatientsQuery();
 
   const [search, setSearch] = useState("");
+
+  const normalizedSearch = search.trim().toLowerCase();
+
+  const filteredPatients = data?.filter((patient) =>
+    patient.name.toLowerCase().includes(normalizedSearch),
+  );
 
   if (isLoading) {
     return (
@@ -68,7 +74,7 @@ export default function PatientsListPage() {
           </tr>
         </thead>
         <tbody>
-          {data?.map((patient) => (
+          {filteredPatients?.map((patient) => (
             <tr key={patient.id} className="border-b text-center">
               <td className="p-2">{patient.name}</td>
               <td className="p-2">{patient.age}</td>
