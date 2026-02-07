@@ -7,6 +7,7 @@ import { ChevronRight, Search } from "lucide-react";
 import RiskBadge from "@/components/ui/RiskBadge";
 import PageTitle from "@/components/ui/PageTitle";
 import { Input } from "@/components/ui/Input";
+import LoadingSkeleton from "@/components/ui/LoadingSkeleton";
 
 export default function Page() {
   const router = useRouter();
@@ -24,11 +25,7 @@ export default function Page() {
     return (
       <div>
         <PageTitle>Patients List</PageTitle>
-        <div className="animate-pulse space-y-2">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <div key={i} className="h-10 w-full rounded bg-gray-200"></div>
-          ))}
-        </div>
+        <LoadingSkeleton rows={10} height="h-10" />
       </div>
     );
   }
