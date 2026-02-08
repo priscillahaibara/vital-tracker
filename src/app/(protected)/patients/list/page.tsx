@@ -8,6 +8,7 @@ import RiskBadge from "@/components/ui/RiskBadge";
 import PageTitle from "@/components/ui/PageTitle";
 import { Input } from "@/components/ui/Input";
 import LoadingSkeleton from "@/components/ui/LoadingSkeleton";
+import { Button } from "@/components/ui/Button";
 
 export default function Page() {
   const router = useRouter();
@@ -63,7 +64,7 @@ export default function Page() {
         />
       </div>
 
-      <table className="w-full border">
+      <table className="mb-4 w-full border">
         <thead>
           <tr className="border-b">
             <th className="p-2 text-center">Name</th>
@@ -106,6 +107,11 @@ export default function Page() {
           )}
         </tbody>
       </table>
+      <div className="flex justify-end">
+        <Button onClick={() => router.push("/patients/new")}>
+          Add patient
+        </Button>
+      </div>
     </div>
   );
 }
