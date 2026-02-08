@@ -1,13 +1,16 @@
 "use client";
 
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { usePatientsQuery } from "@/hooks/queries/patients/usePatientsQuery";
+import { ChevronRight, Search } from "lucide-react";
 import RiskBadge from "@/components/ui/RiskBadge";
 import PageTitle from "@/components/ui/PageTitle";
 import { Input } from "@/components/ui/Input";
-import { Search } from "lucide-react";
-import { useState } from "react";
+import LoadingSkeleton from "@/components/ui/LoadingSkeleton";
 
 export default function Page() {
+  const router = useRouter();
   const { data, isLoading, isError } = usePatientsQuery();
 
   const [search, setSearch] = useState("");
@@ -22,11 +25,7 @@ export default function Page() {
     return (
       <div>
         <PageTitle>Patients List</PageTitle>
-        <div className="animate-pulse space-y-2">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <div key={i} className="h-10 w-full rounded bg-gray-200"></div>
-          ))}
-        </div>
+        <LoadingSkeleton rows={10} height="h-10" />
       </div>
     );
   }
@@ -71,17 +70,30 @@ export default function Page() {
             <th className="p-2 text-center">Age</th>
             <th className="p-2 text-center">Condition</th>
             <th className="p-2 text-center">Risk Level</th>
+            <th className="p-2"></th>
           </tr>
         </thead>
         <tbody>
           {filteredPatients && filteredPatients.length > 0 ? (
             filteredPatients?.map((patient) => (
-              <tr key={patient.id} className="border-b text-center">
+              <tr
+                key={patient.id}
+                tabIndex={0}
+                role="link"
+                onClick={() => router.push(`/patients/${patient.id}`)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") router.push(`/patients/${patient.id}`);
+                }}
+                className="cursor-pointer border-b text-center transition-colors hover:bg-neutral-50 focus:bg-neutral-100 focus:outline-none"
+              >
                 <td className="p-2">{patient.name}</td>
                 <td className="p-2">{patient.age}</td>
                 <td className="p-2">{patient.condition ?? "-"}</td>
                 <td className="p-2">
                   <RiskBadge level={patient.risk_level} />
+                </td>
+                <td className="p-2 text-right text-neutral-700">
+                  <ChevronRight size={18} />
                 </td>
               </tr>
             ))
