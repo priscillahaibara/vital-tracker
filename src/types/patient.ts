@@ -11,3 +11,9 @@ export const CONDITION_OPTIONS = CONDITIONS.map((condition) => ({
   id: condition,
   label: CONDITION_LABELS[condition],
 }));
+
+export type CreatePatientInput = {
+  name: string;
+  age: number;
+  condition: Condition[] | null;
+};
