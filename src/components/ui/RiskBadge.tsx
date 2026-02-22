@@ -1,7 +1,7 @@
-type RiskLevel = "High" | "Medium" | "Low" | null | undefined;
+import { RiskLevel } from "@/types/patient";
 
 interface RiskBadgeProps {
-  level: RiskLevel;
+  level: RiskLevel | null | undefined;
 }
 
 const styles = {

@@ -17,3 +17,13 @@ export type CreatePatientInput = {
   age: number;
   condition: Condition[] | null;
 };
+
+export type RiskLevel = "low" | "medium" | " high";
+
+export type Patient = {
+  id: string;
+  name: string;
+  age: number;
+  condition: Condition[] | null;
+  risk_level: RiskLevel;
+};

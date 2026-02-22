@@ -1,6 +1,7 @@
 import { supabase } from "@/lib/supabase/client";
+import { Patient } from "@/types/patient";
 
-export async function getPatients() {
+export async function getPatients(): Promise<Patient[]> {
   const { data, error } = await supabase
     .from("patients")
     .select("id, name, age, condition, risk_level")
