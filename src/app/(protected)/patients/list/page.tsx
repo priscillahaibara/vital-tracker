@@ -9,6 +9,7 @@ import PageTitle from "@/components/ui/PageTitle";
 import { Input } from "@/components/ui/Input";
 import LoadingSkeleton from "@/components/ui/LoadingSkeleton";
 import { Button } from "@/components/ui/Button";
+import { CONDITION_LABELS } from "@/types/patient";
 
 export default function Page() {
   const router = useRouter();
@@ -89,7 +90,7 @@ export default function Page() {
               >
                 <td className="p-2">{patient.name}</td>
                 <td className="p-2">{patient.age}</td>
-                <td className="p-2">{patient.condition ?? "-"}</td>
+                <td className="p-2">{patient.condition?.length ? patient.condition.map(c => CONDITION_LABELS[c]).join(', ') : '-'}</td>
                 <td className="p-2">
                   <RiskBadge level={patient.risk_level} />
                 </td>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
+import { CONDITION_LABELS, Condition } from "@/types/patient";
 import PageTitle from "@/components/ui/PageTitle";
 import { usePatientQuery } from "@/hooks/queries/patients/usePatientQuery";
 import LoadingSkeleton from "@/components/ui/LoadingSkeleton";
@@ -51,7 +52,7 @@ export default function Page() {
         <h2 className="mb-2 text-xl font-semibold">General Data</h2>
         <p>Name: {patient?.name}</p>
         <p>Age: {patient?.age}</p>
-        <p>Condition: {patient?.condition ?? "-"}</p>
+        <p>Condition: {patient.condition?.length ? patient.condition.map((c: Condition) => CONDITION_LABELS[c]).join(', ') : '-'}</p>
         <p>
           Risk level: <RiskBadge level={patient.risk_level} />
         </p>
