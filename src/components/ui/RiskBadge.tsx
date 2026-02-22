@@ -5,9 +5,15 @@ interface RiskBadgeProps {
 }
 
 const styles = {
-  High: "bg-red-100",
-  Medium: "bg-yellow-100",
-  Low: "bg-green-100",
+  low: "bg-green-300",
+  medium: "bg-yellow-300",
+  high: "bg-red-300",
+};
+
+const labels = {
+  low: "Low",
+  medium: "Medium",
+  high: "High",
 };
 
 export default function RiskBadge({ level }: RiskBadgeProps) {
@@ -21,9 +27,9 @@ export default function RiskBadge({ level }: RiskBadgeProps) {
 
   return (
     <span
-      className={`rounded-full px-2 py-1 text-xs font-medium text-neutral-700 ${styles[level]}`}
+      className={`rounded-full px-2 py-1 text-xs font-medium text-neutral-900 ${styles[level]}`}
     >
-      {level}
+      {labels[level]}
     </span>
   );
 }
